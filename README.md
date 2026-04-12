@@ -39,11 +39,12 @@ Handles CI/CD execution and deployment.
 Steps:
 1. Launch EC2 instance (higher configuration recommended)
 2. Install Java and Jenkins
-3. Attach IAM role
-4. Install Docker
-5. Install AWS CLI and kubectl
-6. Configure access to EKS cluster
-7. Install Blue Ocean plugin
+3. Install git 
+4. Attach IAM role
+5. Install Docker
+6. Install AWS CLI and kubectl
+7. Configure access to EKS cluster
+8. Install Blue Ocean plugin
 IAM Roles and Permissions
 For this setup, IAM roles were configured with broad permissions to avoid access issues during cluster creation and deployment.
 The following policies were attached:
