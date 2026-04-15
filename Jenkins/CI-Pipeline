@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    environment{
+        IMAGE_NAME = 'my-web-app'
+        TAG_NAME = 'latest'
+    }
+    tools{
+        maven "maven"
+    }
+    stages {
+        stage('Git Cloning') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ankush-9/jenkins-docker-k8s-cicd.git'
+            }
+        }
+        stage('Maven Build') {
+    steps {
+        dir('webapp') {
+            sh 'mvn clean compile test package'
+        }
+    }
+}
+        stage('Docker Image Creation') {
+            steps {
+                sh 'docker build -t ${IMAGE_NAME}:${TAG_NAME} .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                withCredentials([string(credentialsId: 'Docker_pwd', variable: 'Docker_pwd')]) 
+                {
+                    sh 'docker login -u ankush6078 -p ${Docker_pwd}'
+                    sh 'docker tag ${IMAGE_NAME}:${TAG_NAME} ankush6078/${IMAGE_NAME}:${TAG_NAME}'
+                    sh 'docker push ankush6078/${IMAGE_NAME}:${TAG_NAME}'
+            }
+        }
+    }
+    stage('CD-Pipeline-Trigger') {
+            steps {
+                script{
+                build 'CD-Pipeline'
+                }
+            }
+        }
+}
+}
