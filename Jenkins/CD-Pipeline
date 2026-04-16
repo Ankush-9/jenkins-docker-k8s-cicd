@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Git Cloning') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ankush-9/jenkins-docker-k8s-cicd.git'
+            }
+        }
+        stage('K8S-Deployment') {
+            steps {
+                script{
+                    sh 'kubectl apply -f k8s-deployment.yml'
+                }
+            }
+        }
+    }
+}
+
