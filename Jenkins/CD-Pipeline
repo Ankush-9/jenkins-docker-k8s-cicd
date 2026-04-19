@@ -15,5 +15,24 @@ pipeline {
             }
         }
     }
+    post{
+        failure{
+            emailext (
+            attachLog: true,
+            body: 'The Build was failed due to some errors',
+            replyTo: 'waliaankush0420@gmail.com',
+            subject: 'Failure',
+            to: 'elfforest25@gmail.com'
+        )
+        }
+        success{
+            emailext (
+            attachLog: true,
+            body: 'The Build was Successful',
+            replyTo: 'waliaankush0420@gmail.com',
+            subject: 'Success',
+            to: 'elfforest25@gmail.com'
+        )
+        }
+    }
 }
-
